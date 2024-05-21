@@ -180,13 +180,13 @@ var stateFunctions = [
             if (user.luk >= 3) { user.gainBarrier(user.mat * 10, 0); } //3阶获得护盾
             
         },
-        turnEndState: function () {
+        actionEndState: function () {
             user.addState(27); //禁止换行
             user._stateTurns[stateId] -= 1;
             user.setStateCounter(stateId, user._stateTurns[stateId]);
             // Check if the user is not immune to death nor resistant to it.
             // 检查状态剩余回合数
-            if (user._stateTurns[stateId] === 0) {
+            if (user._stateTurns[stateId] <= 0) {
                 // Get the death state for the user.
                 var deathState = user.deathStateId();
                 if (user.stateRate(deathState) > 0.01 && !user.isStateResist(deathState)) {
