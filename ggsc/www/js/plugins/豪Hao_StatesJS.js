@@ -191,7 +191,7 @@ var stateFunctions = [
                 var deathState = user.deathStateId();
                 user.removeState(12);
                 user.setHp(0);
-                if (user.stateRate(deathState) > 0.01 && !user.isStateResist(deathState)) {
+                if (user.stateRate(deathState) > 0.01) {
                     
                     // Play animation on the user.
                     user.startAnimation(65);
