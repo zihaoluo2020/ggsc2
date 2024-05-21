@@ -64,27 +64,6 @@ var templateState = {
 }
 
 
-// $gameTroop.members()[0].addState(12)
-// $gameParty.members()[1].gainTp(20)
-// $gameParty.members()[1].addState(34)
-// $gameParty.members()[1].gainTp(20)
-
-// $gameTroop.members()[0].addState(12)
-// undefined
-// $gameParty.members()[0].addState(12)
-// undefined
-// $gameParty.members()[0]._zhongziList
-// $gameTroop.members()[0]._zhongziList
-
-{/* <Custom Action End Effect>
-if(origin.luk>=3&&origin.isAlive()){
-origin.gainTp(5*user._stockpile);
-origin.startAnimation(151);
-origin.startDamagePopup();
-}  
-  
-</Custom Action End Effect> */}
-
 var stateFunctions = [
     {
         //寄生种子
@@ -207,6 +186,56 @@ var stateFunctions = [
             }
         }
     },
+    {
+        //永霜
+        stateId: 38,
+        addState: function () {
+            if (origin.luk >= 6) {
+                target._recoverRate = Math.min(0.2, target._recoverRate);
+            }
+            else if (origin.luk >= 4) {
+                target._recoverRate = Math.min(0.5, target._recoverRate);
+            }
+        },
+        leaveState: function () {
+            target._recoverRate = 1.0;
+        },
+        reactState: function () {
+            // If the received action is an HP effect and if it's a Heal...
+            if (this.isHpEffect() && value <= 0) {
+                if (origin.luk >= 4) {
+                    //处理减疗
+                    value = Math.floor(value * target._recoverRate);
+                    target.startAnimation(154);
+                }
+            }
+        }
+    },
+    {
+        //月光之刃
+        stateId: 39,
+        addState: function () {
+            if (origin.luk >= 6) {
+                target._recoverRate = Math.min(0.2, target._recoverRate);
+            }
+            else if (origin.luk >= 4) {
+                target._recoverRate = Math.min(0.5, target._recoverRate);
+            }
+        },
+        leaveState: function () {
+            target._recoverRate = 1.0;
+        },
+        reactState: function () {
+            // If the received action is an HP effect and if it's a Heal...
+            if (this.isHpEffect() && value <= 0) {
+                if (origin.luk >= 4) {
+                    //处理减疗
+                    value = Math.floor(value * target._recoverRate);
+                    target.startAnimation(154);
+                }
+            }
+        }
+    },
 
 ]
 
@@ -240,7 +269,7 @@ var JiShengZhongziTurnEnd = function (){
                     battler.startDamagePopup();
 
                     if (origin.isAlive()) {
-                    origin.gainHp(Math.ceil(damage/2)); // 增加来源角色的 HP
+                    origin.gainHp(Math.ceil(damage/2 * origin._recoverRate)); // 增加来源角色的 HP + 减疗影响
                     origin.startDamagePopup();
                     }
 

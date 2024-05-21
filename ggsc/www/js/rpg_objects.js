@@ -2199,6 +2199,8 @@ Game_BattlerBase.prototype.initMembers = function() {
     this.clearParamPlus();
     this.clearStates();
     this.clearBuffs();
+    //自带属性修改
+    this._recoverRate = 1.0; // 默认恢复率为 100%
 };
 
 Game_BattlerBase.prototype.clearParamPlus = function() {

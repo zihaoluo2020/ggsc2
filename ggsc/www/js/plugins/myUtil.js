@@ -248,6 +248,8 @@ window.fiveGambles = function(){
         }
     }
 
+
+
     // 确保我们得到了五个有效的 actid
     if (actids.length === 5) {
         window.showCardPicFive(actids).then(function() {
