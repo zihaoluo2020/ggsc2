@@ -189,12 +189,14 @@ var stateFunctions = [
             if (user._stateTurns[stateId] <= 0) {
                 // Get the death state for the user.
                 var deathState = user.deathStateId();
+                user.removeState(12);
+                user.setHp(0);
                 if (user.stateRate(deathState) > 0.01 && !user.isStateResist(deathState)) {
-                    user.removeState(12);
+                    
                     // Play animation on the user.
                     user.startAnimation(65);
                     // Set the user's HP to 0.
-                    user.setHp(0);
+                    
                     user.removeState(27); //禁止换行移除
                     // Check if the user is dead.
                     if (user.isDead()) {
