@@ -286,6 +286,13 @@ var JiShengZhongziTurnEnd = function (){
             });
         }
     });
+
+    // // 获取所有角色（敌方和友方）
+    // var allEnemy = $gameTroop.aliveMembers();
+    // // 遍历所有角色
+    // allEnemy.forEach(function(battler) {
+    //     battler.setRow(Math.floor(Math.random()*4 + 1));
+    // });
 }
 
 
