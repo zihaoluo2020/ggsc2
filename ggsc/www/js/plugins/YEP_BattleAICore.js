@@ -692,15 +692,44 @@ Game_Enemy.prototype.aiConsiderTaunt = function() {
 };
 
 Game_Enemy.prototype.setAIPattern = function() {
-    Game_Battler.prototype.setAIPattern.call(this);
-    if (this.numActions() <= 0) return;
-    AIManager.setBattler(this);
-    for (var i = 0; i < this.enemy().aiPattern.length; ++i) {
-      if (Math.random() > this.aiLevel()) continue;
+  console.log("Setting AI Pattern for enemy:", this.name());
+
+  Game_Battler.prototype.setAIPattern.call(this);
+  if (this.numActions() <= 0) {
+      console.log("No actions available for enemy:", this.name());
+      return;
+  }
+
+  console.log("Number of actions available:", this.numActions());
+  AIManager.setBattler(this);
+  console.log("AI Manager set for battler:", this.name());
+
+  for (var i = 0; i < this.enemy().aiPattern.length; ++i) {
+      console.log("Processing AI pattern index:", i);
+      
+      if (Math.random() > this.aiLevel()) {
+          console.log("Skipping pattern index due to AI level check:", i);
+          continue;
+      }
+
       var line = this.enemy().aiPattern[i];
-      if (AIManager.isDecidedActionAI(line)) return;
-    }
-    Yanfly.CoreAI.Game_Enemy_makeActions.call(this);
+      console.log("Evaluating AI pattern line:", line);
+
+      if (AIManager.isDecidedActionAI(line)) {
+          console.log("Action decided by AI Manager for line:", line);
+          return;
+      }
+  }
+
+  console.log("No AI pattern matched, calling default action maker.");
+  console.log(this.enemy());
+  if (this.enemy().id === 40){ // test ai 
+    console.log("guanguan diren");
+    Yanfly.CoreAI.Game_Enemy_makeActions.call(this); //default version move
+  }else{
+    Yanfly.CoreAI.Game_Enemy_makeActions.call(this); //default version move
+  }
+
 };
 
 Game_Enemy.prototype.aiLevel = function() {

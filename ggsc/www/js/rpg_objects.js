@@ -2199,8 +2199,9 @@ Game_BattlerBase.prototype.initMembers = function() {
     this.clearParamPlus();
     this.clearStates();
     this.clearBuffs();
-    //自带属性修改
-    this._recoverRate = 1.0; // 默认恢复率为 100%
+    // //自带属性修改
+    // this._recoverRate = 1.0; // 默认恢复率为 100%
+    // console.log("初始化recover");
 };
 
 Game_BattlerBase.prototype.clearParamPlus = function() {
@@ -3137,6 +3138,7 @@ Game_Battler.prototype.makeActions = function() {
     this.clearActions();
     if (this.canMove()) {
         var actionTimes = this.makeActionTimes();
+        console.log(actionTimes, "可执行次数！！！");
         this._actions = [];
         for (var i = 0; i < actionTimes; i++) {
             this._actions.push(new Game_Action(this));
@@ -3261,12 +3263,18 @@ Game_Battler.prototype.regenerateAll = function() {
     }
 };
 
+// 扩展 Game_Battler 类，添加新属性
+Game_Battler.prototype.initNewProperty = function() {
+    this._recoverRate = 1.0; // 初始化新属性，初始值为0或其他默认值
+};
+
 Game_Battler.prototype.onBattleStart = function() {
     this.setActionState('undecided');
     this.clearMotion();
     if (!this.isPreserveTp()) {
         this.initTp();
     }
+    this.initNewProperty(); // 新属性添加
 };
 
 Game_Battler.prototype.onAllActionsEnd = function() {
